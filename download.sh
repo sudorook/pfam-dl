@@ -19,9 +19,9 @@ fi
 mkdir -p "pfam_${VERSION}"
 pushd "pfam_${VERSION}" > /dev/null
 
-curl -O -C - "${BASEURL}/userman.txt"
+curl --retry-all-errors -O -C - "${BASEURL}/userman.txt"
 for FILE in "${FILES[@]}"; do
-  curl -O -C - "${BASEURL}/database_files/${FILE}"
+  curl --retry-all-errors -O -C - "${BASEURL}/database_files/${FILE}"
 done
 
 popd > /dev/null
