@@ -9,6 +9,10 @@ function get_pfam_current_release {
     sed -n '2s/\s\+RELEASE\s\(.*\)\s*/\1/p'
 }
 
+function curl_dl {
+  curl --retry-all-errors --connect-timeout 60 --retry 10 -O -C - "${1}"
+}
+
 # Get current release
 VERSION="$(get_pfam_current_release)"
 if [ -z "${VERSION}" ]; then
@@ -19,9 +23,9 @@ fi
 mkdir -p "pfam_${VERSION}"
 pushd "pfam_${VERSION}" > /dev/null
 
-curl --retry-all-errors -O -C - "${BASEURL}/userman.txt"
+curl_dl "${BASEURL}/userman.txt"
 for FILE in "${FILES[@]}"; do
-  curl --retry-all-errors -O -C - "${BASEURL}/database_files/${FILE}"
+  curl_dl "${BASEURL}/database_files/${FILE}"
 done
 
 popd > /dev/null
