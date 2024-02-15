@@ -7,18 +7,6 @@ source "${ROOT}"/globals
 
 ! check_command curl sed && exit 3
 
-BASEURL=https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release
-FILES=(pfamseq.{txt,sql}.gz)
-
-function get_pfam_current_release {
-  curl -s "${BASEURL}/relnotes.txt" |
-    sed -n '2s/\s\+RELEASE\s\(.*\)\s*/\1/p'
-}
-
-function curl_dl {
-  curl --retry-all-errors --connect-timeout 60 --retry 10 -O -C - "${1}"
-}
-
 # Get current release
 VERSION="$(get_pfam_current_release)"
 if [ -z "${VERSION}" ]; then

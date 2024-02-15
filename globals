@@ -1,6 +1,15 @@
 #! /bin/bash
 
 #
+# Global variables
+#
+
+BASEURL=https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release
+FILES=(pfamseq.{txt,sql}.gz)
+export BASEURL
+export FILES
+
+#
 # Utility functions
 #
 
@@ -117,3 +126,14 @@ check_command() {
   fi
 }
 export -f check_command
+
+function get_pfam_current_release {
+  curl -s "${BASEURL}/relnotes.txt" |
+    sed -n '2s/\s\+RELEASE\s\(.*\)\s*/\1/p'
+}
+export -f get_pfam_current_release
+
+function curl_dl {
+  curl --retry-all-errors --connect-timeout 60 --retry 10 -O -C - "${1}"
+}
+export -f curl_dl
