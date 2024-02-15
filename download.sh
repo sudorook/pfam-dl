@@ -5,6 +5,8 @@ ROOT="$(readlink -f "$(dirname "${0}")")"
 
 source "${ROOT}"/globals
 
+! check_command curl sed && exit 3
+
 BASEURL=https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release
 FILES=(pfamseq.{txt,sql}.gz)
 
