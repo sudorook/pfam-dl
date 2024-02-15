@@ -1,6 +1,10 @@
 #! /bin/bash
 set -euo pipefail
 
+ROOT="$(readlink -f "$(dirname "${0}")")"
+
+source "${ROOT}"/globals
+
 BASEURL=https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release
 FILES=(pfamseq.{txt,sql}.gz)
 
@@ -16,7 +20,7 @@ function curl_dl {
 # Get current release
 VERSION="$(get_pfam_current_release)"
 if [ -z "${VERSION}" ]; then
-  echo Failed to get latest Pfam release version number. Exiting.
+  show_error Failed to get latest Pfam release version number. Exiting.
   exit 3
 fi
 
