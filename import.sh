@@ -5,7 +5,7 @@ ROOT="$(readlink -f "$(dirname "${0}")")"
 
 source "${ROOT}"/globals
 
-! check_command awk && exit 3
+! check_command awk git sqlite3 && exit 3
 
 if command -v pigz > /dev/null; then
   GZIP=pigz
